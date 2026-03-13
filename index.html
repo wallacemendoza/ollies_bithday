@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ollie's 7th Birthday!</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+  --grass: #5dbb1a;
+  --dirt: #8B5E3C;
+  --stone: #828282;
+  --sky: #6ab5ff;
+  --wood: #9e7b44;
+  --leaf: #3e8b22;
+  --gold: #FFD700;
+  --diamond: #5ee7f7;
+  --creeper: #44a13e;
+  --lava: #ff6800;
+  --sand: #f5d67a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--sky);
+  font-family: 'VT323', monospace;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect x='0' y='0' width='16' height='16' fill='%238B5E3C'/%3E%3Crect x='16' y='16' width='16' height='16' fill='%238B5E3C'/%3E%3Crect x='16' y='0' width='16' height='16' fill='%23a0724d'/%3E%3Crect x='0' y='16' width='16' height='16' fill='%23a0724d'/%3E%3C/svg%3E"), auto;
+}
+
+/* CLOUDS */
+.clouds {
+  position: fixed; top: 0; left: 0; width: 100%; height: 200px;
+  pointer-events: none; z-index: 0;
+}
+.cloud {
+  position: absolute;
+  background: white;
+  image-rendering: pixelated;
+  animation: cloudFloat linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+}
+.cloud1 { width:80px; height:24px; top:40px; animation-duration:30s; animation-delay:-5s; }
+.cloud1::before { width:40px; height:24px; top:-20px; left:16px; }
+.cloud2 { width:60px; height:20px; top:80px; animation-duration:22s; animation-delay:-12s; }
+.cloud2::before { width:30px; height:20px; top:-16px; left:12px; }
+.cloud3 { width:100px; height:28px; top:20px; animation-duration:38s; animation-delay:-20s; }
+.cloud3::before { width:50px; height:28px; top:-24px; left:20px; }
+
+@keyframes cloudFloat {
+  from { left: -200px; }
+  to { left: 110%; }
+}
+
+/* FLOATING BLOCKS */
+.floating-blocks {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden;
+}
+.fblock {
+  position: absolute;
+  width: 28px; height: 28px;
+  image-rendering: pixelated;
+  animation: blockFloat linear infinite;
+  border: 3px solid rgba(0,0,0,0.35);
+  border-right-color: rgba(0,0,0,0.55);
+  border-bottom-color: rgba(0,0,0,0.55);
+}
+@keyframes blockFloat {
+  0% { transform: translateY(110vh) rotate(0deg); opacity: 0.8; }
+  100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+}
+
+/* GROUND STRIP */
+.ground {
+  position: fixed; bottom: 0; left: 0; width: 100%;
+  display: flex; z-index: 1; pointer-events: none;
+}
+.ground-block {
+  height: 48px; flex: 1;
+  border: 2px solid rgba(0,0,0,0.4);
+  image-rendering: pixelated;
+}
+.ground-block.grass {
+  background: linear-gradient(180deg, var(--grass) 30%, var(--dirt) 100%);
+}
+.ground-block.dirt {
+  background: var(--dirt);
+}
+
+/* MAIN CARD */
+.card-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px 100px;
+  position: relative;
+  z-index: 10;
+}
+
+/* TITLE BLOCK */
+.title-block {
+  background: #1a1a1a;
+  border: 6px solid #000;
+  box-shadow: 6px 6px 0 #000, inset 0 0 0 3px #333;
+  padding: 24px 16px;
+  text-align: center;
+  margin-bottom: 12px;
+  position: relative;
+  animation: titleDrop 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes titleDrop {
+  from { transform: translateY(-60px) scale(0.8); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+.you-are-invited {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 12px;
+  animation: blink 1.2s step-start infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.name-line {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 28px;
+  color: white;
+  display: block;
+  text-shadow: 4px 4px 0 var(--grass), 6px 6px 0 #000;
+  line-height: 1.3;
+}
+.num-line {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 72px;
+  color: var(--gold);
+  display: block;
+  text-shadow: 5px 5px 0 #8B6914, 8px 8px 0 #000;
+  line-height: 1;
+  animation: numWobble 2s ease-in-out infinite;
+}
+@keyframes numWobble {
+  0%,100% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(3deg) scale(1.05); }
+}
+.bday-line {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  color: var(--creeper);
+  display: block;
+  text-shadow: 3px 3px 0 #1f5c1a, 5px 5px 0 #000;
+  margin-top: 4px;
+}
+
+/* CREEPER FACE DECO */
+.creeper-deco {
+  display: flex; justify-content: center; gap: 24px;
+  margin: 14px 0 0;
+}
+.creeper-face {
+  font-size: 40px;
+  animation: creeperSpin 3s ease-in-out infinite;
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.creeper-face:nth-child(2) { animation-delay: 0.5s; }
+.creeper-face:nth-child(3) { animation-delay: 1s; }
+.creeper-face:active { transform: scale(1.4) rotate(20deg) !important; }
+@keyframes creeperSpin {
+  0%,100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+/* SECTION BLOCKS */
+.section {
+  background: #c6c6c6;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  margin-bottom: 10px;
+  overflow: hidden;
+  animation: slideIn 0.5s ease both;
+}
+@keyframes slideIn {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.section:nth-child(2) { animation-delay: 0.1s; }
+.section:nth-child(3) { animation-delay: 0.2s; }
+.section:nth-child(4) { animation-delay: 0.3s; }
+.section:nth-child(5) { animation-delay: 0.4s; }
+
+.section-header {
+  background: #555;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 3px solid #000;
+}
+.section-header.dirt-header { background: var(--dirt); }
+.section-header.grass-header { background: var(--grass); }
+.section-header.gold-header { background: #b8961a; }
+.section-header.diamond-header { background: #1a9eb0; }
+.section-header.lava-header { background: var(--lava); }
+
+.section-icon { font-size: 24px; }
+.section-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: white;
+  text-shadow: 2px 2px 0 #000;
+}
+
+.section-body {
+  padding: 16px;
+  background: #1a1a1a;
+}
+
+.info-line {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 12px;
+}
+.info-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--gold);
+  min-width: 70px;
+  padding-top: 3px;
+}
+.info-val {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: white;
+  line-height: 1.2;
+}
+.info-sub {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #aaa;
+}
+
+/* PIXEL DIVIDER */
+.pixel-div {
+  height: 12px;
+  background: repeating-linear-gradient(90deg,
+    var(--grass) 0, var(--grass) 16px,
+    var(--leaf) 16px, var(--leaf) 32px,
+    var(--gold) 32px, var(--gold) 48px,
+    var(--dirt) 48px, var(--dirt) 64px
+  );
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+  margin: 10px 0;
+}
+
+/* ACTIVITIES */
+.activities {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  padding: 16px;
+  background: #1a1a1a;
+}
+.activity-block {
+  background: var(--stone);
+  border: 3px solid #000;
+  border-right-color: #555;
+  border-bottom-color: #555;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 3px 3px 0 #000;
+}
+.activity-block:hover {
+  transform: translate(-2px,-2px);
+  box-shadow: 5px 5px 0 #000;
+}
+.activity-block:active {
+  transform: translate(2px,2px);
+  box-shadow: 1px 1px 0 #000;
+}
+.activity-block.green { background: var(--creeper); }
+.activity-block.gold  { background: #b8961a; }
+.activity-block.blue  { background: #2255aa; }
+.activity-block.brown { background: var(--dirt); }
+.act-icon { font-size: 32px; display: block; margin-bottom: 4px; }
+.act-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: white;
+  text-shadow: 1px 1px 0 #000;
+  line-height: 1.4;
+}
+
+/* MENU */
+.menu-grid {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 16px;
+  background: #1a1a1a;
+}
+.menu-item {
+  background: var(--wood);
+  border: 3px solid #000;
+  border-right-color: #5a3e20;
+  border-bottom-color: #5a3e20;
+  padding: 8px 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: white;
+  text-shadow: 1px 1px 0 #000;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.menu-item:hover { transform: scale(1.08); }
+.menu-item.special { background: #1a9eb0; }
+
+/* TNT RSVP */
+.rsvp-block {
+  background: #1a1a1a;
+  border: 4px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.tnt-header {
+  background: #cc1111;
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  border-bottom: 4px solid #000;
+  animation: tntPulse 1s ease-in-out infinite;
+}
+@keyframes tntPulse {
+  0%,100% { background: #cc1111; }
+  50% { background: #ff3333; }
+}
+.tnt-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: white;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.rsvp-body {
+  padding: 20px 16px;
+  background: #1a1a1a;
+}
+
+.rsvp-text {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: #ccc;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.rsvp-text span { color: var(--gold); }
+
+.rsvp-inputs {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 14px;
+}
+.mc-input {
+  background: #333;
+  border: 3px solid #555;
+  border-right-color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+  padding: 10px 14px;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: white;
+  outline: none;
+  width: 100%;
+}
+.mc-input:focus {
+  border-color: var(--diamond);
+  border-right-color: #1a9eb0;
+  border-bottom-color: #1a9eb0;
+}
+.mc-input::placeholder { color: #666; }
+
+.btn-row { display: flex; gap: 10px; }
+
+.mc-btn {
+  flex: 1;
+  background: var(--grass);
+  border: 4px solid #000;
+  border-right-color: #2a6010;
+  border-bottom-color: #2a6010;
+  padding: 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: white;
+  text-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 4px 4px 0 #000;
+  text-align: center;
+}
+.mc-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+.mc-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #000; }
+.mc-btn.cant {
+  background: var(--stone);
+  border-right-color: #444;
+  border-bottom-color: #444;
+}
+
+/* SUCCESS SCREEN */
+.rsvp-success {
+  display: none;
+  padding: 24px;
+  background: #1a1a1a;
+  text-align: center;
+}
+.success-icon { font-size: 64px; animation: successBounce 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+@keyframes successBounce {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+.success-msg {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  text-shadow: 2px 2px 0 #000;
+  margin-top: 12px;
+  line-height: 1.8;
+}
+
+/* FOOTER GRASS */
+.footer-ground {
+  display: flex;
+}
+.fg-block {
+  height: 48px; flex: 1;
+  border: 2px solid rgba(0,0,0,0.3);
+}
+.fg-block:nth-child(odd) { background: linear-gradient(180deg, var(--grass) 30%, var(--dirt) 100%); }
+.fg-block:nth-child(even) { background: var(--dirt); }
+
+/* CLICK PARTICLES */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 20px;
+  z-index: 9999;
+  animation: particleFly 0.8s ease-out forwards;
+}
+@keyframes particleFly {
+  from { transform: translate(0,0) scale(1); opacity: 1; }
+  to { transform: translate(var(--dx),var(--dy)) scale(0); opacity: 0; }
+}
+
+/* XP BAR */
+.xp-bar-wrap {
+  background: #000;
+  border: 3px solid #555;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.xp-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.xp-track {
+  flex: 1;
+  height: 14px;
+  background: #333;
+  border: 2px solid #666;
+  position: relative;
+  overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  background: var(--creeper);
+  width: 0%;
+  transition: width 0.4s ease;
+  position: relative;
+}
+.xp-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 50%;
+  background: rgba(255,255,255,0.25);
+}
+.xp-count {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: white;
+  white-space: nowrap;
+}
+
+</style>
+</head>
+<body>
+
+<!-- CLOUDS -->
+<div class="clouds">
+  <div class="cloud cloud1" style="left:10%"></div>
+  <div class="cloud cloud2" style="left:40%"></div>
+  <div class="cloud cloud3" style="left:70%"></div>
+</div>
+
+<!-- FLOATING BLOCKS -->
+<div class="floating-blocks" id="floatBlocks"></div>
+
+<div class="card-wrap">
+
+  <!-- XP BAR -->
+  <div class="xp-bar-wrap">
+    <span class="xp-label">HYPE XP</span>
+    <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+    <span class="xp-count" id="xpCount">0 / 100</span>
+  </div>
+
+  <!-- TITLE -->
+  <div class="title-block">
+    <span class="you-are-invited">★ YOU ARE INVITED ★</span>
+    <span class="name-line">OLLIE'S</span>
+    <span class="num-line">7</span>
+    <span class="bday-line">TH BIRTHDAY!</span>
+    <div class="creeper-deco">
+      <span class="creeper-face" title="Click me!">🟩</span>
+      <span style="font-size:40px; display:inline-block; animation: numWobble 1.5s ease-in-out infinite;">🎂</span>
+      <span class="creeper-face" title="Click me!">🟩</span>
+    </div>
+    <div style="margin-top:10px; font-family:'Press Start 2P',monospace; font-size:8px; color:#888; letter-spacing:1px;">
+      [ CLICK ANYTHING TO EARN XP! ]
+    </div>
+  </div>
+
+  <!-- DATE & TIME -->
+  <div class="section" style="animation-delay:0.1s">
+    <div class="section-header gold-header">
+      <span class="section-icon">⛏️</span>
+      <span class="section-title">WHEN TO SPAWN IN</span>
+    </div>
+    <div class="section-body">
+      <div class="info-line">
+        <span class="info-label">DATE:</span>
+        <div>
+          <div class="info-val">Saturday, March 28th, 2026</div>
+        </div>
+      </div>
+      <div class="info-line">
+        <span class="info-label">TIME:</span>
+        <div>
+          <div class="info-val">Starting at 12:00 PM</div>
+          <div class="info-sub">Come anytime — celebrating all day!</div>
+        </div>
+      </div>
+      <div class="info-line" style="margin-bottom:0">
+        <span class="info-label">🎂 CAKE:</span>
+        <div>
+          <div class="info-val" style="color:var(--gold)">Around 3:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATION -->
+  <div class="section" style="animation-delay:0.2s">
+    <div class="section-header grass-header">
+      <span class="section-icon">🗺️</span>
+      <span class="section-title">SPAWN LOCATION</span>
+    </div>
+    <div class="section-body">
+      <div class="info-line" style="margin-bottom:0">
+        <span class="info-label">COORDS:</span>
+        <div>
+          <div class="info-val">968 Raghorn Rd.</div>
+          <div class="info-sub">Grovetown, GA</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pixel-div"></div>
+
+  <!-- ACTIVITIES -->
+  <div class="section" style="animation-delay:0.3s">
+    <div class="section-header dirt-header">
+      <span class="section-icon">⚔️</span>
+      <span class="section-title">WHAT'S HAPPENING</span>
+    </div>
+    <div class="activities">
+      <div class="activity-block green" onclick="earnXP(this, 15)">
+        <span class="act-icon">🏰</span>
+        <span class="act-label">BOUNCE HOUSE</span>
+      </div>
+      <div class="activity-block gold" onclick="earnXP(this, 15)">
+        <span class="act-icon">🎂</span>
+        <span class="act-label">BIRTHDAY CAKE</span>
+      </div>
+      <div class="activity-block blue" onclick="earnXP(this, 15)">
+        <span class="act-icon">🍔</span>
+        <span class="act-label">EPIC FOOD</span>
+      </div>
+      <div class="activity-block brown" onclick="earnXP(this, 15)">
+        <span class="act-icon">🎉</span>
+        <span class="act-label">ALL DAY FUN</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <div class="section" style="animation-delay:0.4s">
+    <div class="section-header diamond-header">
+      <span class="section-icon">🍖</span>
+      <span class="section-title">FOOD INVENTORY</span>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-item" onclick="earnXP(this,8)">🥪 Sandwiches</div>
+      <div class="menu-item" onclick="earnXP(this,8)">🍿 Snacks</div>
+      <div class="menu-item" onclick="earnXP(this,8)">🥤 Kids Drinks</div>
+      <div class="menu-item special" onclick="earnXP(this,8)">🍺 BYOB!</div>
+      <div class="menu-item special" onclick="earnXP(this,8)">🥘 Bring a dish to share!</div>
+    </div>
+  </div>
+
+  <div class="pixel-div"></div>
+
+  <!-- RSVP TNT -->
+  <div class="rsvp-block">
+    <div class="tnt-header">
+      <span style="font-size:28px">💥</span>
+      <span class="tnt-title">RSVP OR FACE TNT</span>
+      <span style="font-size:28px">💥</span>
+    </div>
+
+    <div id="rsvpForm" class="rsvp-body">
+      <div class="rsvp-text">
+        Let Christina know if you're coming!<br>
+        Text <span>(407) 600-6336</span> or use the buttons below 👇
+      </div>
+
+      <div class="rsvp-inputs">
+        <input class="mc-input" id="playerName" placeholder="▶ YOUR NAME..." type="text" maxlength="30">
+        <input class="mc-input" id="guestCount" placeholder="▶ HOW MANY PLAYERS? (e.g. 3)" type="number" min="1" max="20">
+      </div>
+
+      <div class="btn-row">
+        <button class="mc-btn" onclick="sendRSVP('yes')">
+          ✅ I'M COMING!
+        </button>
+        <button class="mc-btn cant" onclick="sendRSVP('no')">
+          ❌ CAN'T MAKE IT
+        </button>
+      </div>
+    </div>
+
+    <div id="rsvpSuccess" class="rsvp-success">
+      <div class="success-icon" id="successIcon">🎉</div>
+      <div class="success-msg" id="successMsg">
+        MESSAGE SENT!<br>SEE YOU AT THE PARTY!
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER GROUND -->
+  <div class="footer-ground">
+    <div class="fg-block"></div><div class="fg-block"></div>
+    <div class="fg-block"></div><div class="fg-block"></div>
+    <div class="fg-block"></div><div class="fg-block"></div>
+    <div class="fg-block"></div><div class="fg-block"></div>
+    <div class="fg-block"></div><div class="fg-block"></div>
+  </div>
+
+</div>
+
+<script>
+// ---- FLOATING BLOCKS ----
+const blockColors = [
+  {bg:'#5dbb1a',side:'#3e8b22'}, // grass
+  {bg:'#8B5E3C',side:'#5a3e20'}, // dirt
+  {bg:'#828282',side:'#555'},    // stone
+  {bg:'#FFD700',side:'#b8961a'}, // gold
+  {bg:'#5ee7f7',side:'#1a9eb0'}, // diamond
+];
+const container = document.getElementById('floatBlocks');
+for(let i=0;i<18;i++){
+  const b = document.createElement('div');
+  b.className = 'fblock';
+  const c = blockColors[i%blockColors.length];
+  b.style.background = c.bg;
+  b.style.left = (Math.random()*100)+'%';
+  b.style.animationDuration = (8+Math.random()*16)+'s';
+  b.style.animationDelay = (-Math.random()*20)+'s';
+  b.style.width = b.style.height = (20+Math.random()*20)+'px';
+  b.style.borderColor = c.side;
+  b.style.opacity = 0.6;
+  container.appendChild(b);
+}
+
+// ---- XP SYSTEM ----
+let xp = 0;
+const maxXP = 100;
+function earnXP(el, amount){
+  xp = Math.min(xp + amount, maxXP);
+  document.getElementById('xpFill').style.width = xp+'%';
+  document.getElementById('xpCount').textContent = xp+' / '+maxXP;
+  spawnParticles(el);
+  if(xp >= maxXP){
+    document.getElementById('xpFill').style.background = 'var(--gold)';
+    document.getElementById('xpCount').style.color = 'var(--gold)';
+  }
+}
+
+// ---- CLICK PARTICLES ----
+const emojis = ['⭐','💎','🪙','🟩','💥','🔥','✨','🎉'];
+function spawnParticles(el){
+  const rect = el ? el.getBoundingClientRect() : {left:window.innerWidth/2, top:window.innerHeight/2, width:0, height:0};
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
+  for(let i=0;i<5;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.left = cx+'px';
+    p.style.top = cy+'px';
+    const angle = (Math.random()*360)*Math.PI/180;
+    const dist = 60+Math.random()*80;
+    p.style.setProperty('--dx', Math.cos(angle)*dist+'px');
+    p.style.setProperty('--dy', Math.sin(angle)*dist+'px');
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(), 900);
+  }
+}
+
+// global click xp
+document.addEventListener('click', e=>{
+  if(!e.target.closest('input') && !e.target.closest('button')){
+    earnXP(null, 2);
+  }
+});
+
+// ---- RSVP ----
+function sendRSVP(choice){
+  const name = document.getElementById('playerName').value.trim() || 'A Guest';
+  const count = document.getElementById('guestCount').value || '1';
+  const phone = '4076006336';
+
+  let msg, icon, successText;
+  if(choice === 'yes'){
+    msg = encodeURIComponent(`Hey Christina! This is ${name}. We'll be there for Ollie's 7th Birthday party on March 28th! 🎂🎉 (${count} player${count!=1?'s':''})`);
+    icon = '🎉';
+    successText = "AWESOME!\nSEE YOU AT THE PARTY!\nOLLIE CAN'T WAIT!";
+  } else {
+    msg = encodeURIComponent(`Hey Christina! This is ${name}. Unfortunately we won't be able to make it to Ollie's 7th Birthday party. Hope it's an awesome day! 🎂`);
+    icon = '😢';
+    successText = "MESSAGE SENT!\nWE'LL MISS YOU!\nMAYBE NEXT TIME!";
+  }
+
+  // open SMS
+  const smsLink = `sms:${phone}?&body=${msg}`;
+  window.location.href = smsLink;
+
+  // show success after brief delay
+  setTimeout(()=>{
+    document.getElementById('rsvpForm').style.display = 'none';
+    const s = document.getElementById('rsvpSuccess');
+    s.style.display = 'block';
+    document.getElementById('successIcon').textContent = icon;
+    document.getElementById('successMsg').textContent = successText;
+    earnXP(null, 30);
+    for(let i=0;i<3;i++) setTimeout(()=>spawnParticles(null), i*300);
+  }, 500);
+}
+
+// creeper click sounds (visual only - bounce)
+document.querySelectorAll('.creeper-face').forEach(c=>{
+  c.addEventListener('click', ()=>{
+    earnXP(c, 10);
+    c.style.transform = 'scale(1.5) rotate(20deg)';
+    setTimeout(()=>c.style.transform='',300);
+  });
+});
+</script>
+</body>
+</html>
